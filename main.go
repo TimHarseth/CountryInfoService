@@ -12,7 +12,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/countryinfo/v1/info/{two_letter_country_code}", handler.GetInfo)
-	//http.HandleFunc("/countryinfo/v1/population/{:two_letter_country_code}{?limit={:startYear-endYear}}", handler.population)
+	r.HandleFunc("/countryinfo/v1/population/{two_letter_country_code}", handler.GetPopulation)
 	//http.HandleFunc("/countryinfo/v1/status/", handler.status)
 
 	fmt.Println("Listening on port 8080")
