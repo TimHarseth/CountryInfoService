@@ -33,14 +33,19 @@ func GetPopulation(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
+
+	// new struct for limiting by year
 	var limitedPopulation []models.PopulationValue
+
 	yearLimit := r.URL.Query().Get("limit")
 	if yearLimit != "" {
+		// splitting up the startYear and endYear
 		years := strings.Split(yearLimit, "-")
 		if len(years) == 2 {
 			startYear, _ := strconv.Atoi(years[0])
 			endYear, _ := strconv.Atoi(years[1])
 
+			// appends correct year and corresponding population value according to user inputted limit
 			for i := 0; i < len(populationInfo.Data.PopulationValues); i++ {
 				if populationInfo.Data.PopulationValues[i].Year >= startYear && populationInfo.Data.PopulationValues[i].Year <= endYear {
 					limitedPopulation = append(limitedPopulation, populationInfo.Data.PopulationValues[i])
@@ -48,13 +53,13 @@ func GetPopulation(w http.ResponseWriter, r *http.Request) {
 			}
 
 		}
-
+		// error handling
 		if len(years) != 2 {
 			http.Error(w, "Invalid limit", http.StatusNotFound)
 		}
 
 	} else {
-		limitedPopulation = populationInfo.Data.PopulationValues
+		limitedPopulation = populationInfo.Data.PopulationValues // if user does not enter limit, use default length
 	}
 
 	// calculate mean
