@@ -69,6 +69,7 @@ func GetPopulation(w http.ResponseWriter, r *http.Request) {
 	}
 	sum = sum / len(limitedPopulation)
 
+	// final struct for writing out
 	FinalPopulation := models.FinalPopulation{
 		Mean:   sum,
 		Values: limitedPopulation,
