@@ -32,27 +32,7 @@ type Combined_info struct {
 	Cities     []string          `json:"cities"`     // List of cities in the country
 }
 
-/*
-	type Population_info struct {
-		Data struct {
-			PopulationValues []map[string]int `json:"populationCounts"`
-		} `json:"data"`
-	}
-*/
-/*type Population_info struct {
-	Data struct {
-		PopulationValues []struct {
-			Year  int `json:"year"`
-			Value int `json:"value"`
-		} `json:"populationCounts"`
-	} `json:"data"`
-}
-
-type FinalPopulation struct {
-	Mean   int             `json:"mean"`
-	Values  Population_info.Data.PopulationValues `json:"values"`
-}*/
-// Definer PopulationValue separat
+// Define Population structs
 type PopulationValue struct {
 	Year  int `json:"year"`
 	Value int `json:"value"`
