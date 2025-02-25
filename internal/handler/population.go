@@ -41,21 +41,30 @@ func GetPopulation(w http.ResponseWriter, r *http.Request) {
 	if yearLimit != "" {
 		// splitting up the startYear and endYear
 		years := strings.Split(yearLimit, "-")
-		if len(years) == 2 {
-			startYear, _ := strconv.Atoi(years[0])
-			endYear, _ := strconv.Atoi(years[1])
-
-			// appends correct year and corresponding population value according to user inputted limit
-			for i := 0; i < len(populationInfo.Data.PopulationValues); i++ {
-				if populationInfo.Data.PopulationValues[i].Year >= startYear && populationInfo.Data.PopulationValues[i].Year <= endYear {
-					limitedPopulation = append(limitedPopulation, populationInfo.Data.PopulationValues[i])
-				}
-			}
-
-		}
-		// error handling
 		if len(years) != 2 {
-			http.Error(w, "Invalid limit", http.StatusNotFound)
+			http.Error(w, "Invalid limit format. Use xxxx-xxxx, e.g., 2008-2015.", http.StatusBadRequest)
+			return
+		}
+		startYear, err1 := strconv.Atoi(years[0])
+		endYear, err2 := strconv.Atoi(years[1])
+
+		// Checks for parsing errors
+		if err1 != nil || err2 != nil {
+			http.Error(w, "Invalid year format. Years must be numbers.", http.StatusBadRequest)
+			return
+		}
+
+		// Makes sure startYear is less or equal to endYear
+		if startYear > endYear {
+			http.Error(w, "Start year must be less than or equal to end year.", http.StatusBadRequest)
+			return
+		}
+
+		// appends correct year and corresponding population value according to user inputted limit
+		for i := 0; i < len(populationInfo.Data.PopulationValues); i++ {
+			if populationInfo.Data.PopulationValues[i].Year >= startYear && populationInfo.Data.PopulationValues[i].Year <= endYear {
+				limitedPopulation = append(limitedPopulation, populationInfo.Data.PopulationValues[i])
+			}
 		}
 
 	} else {
