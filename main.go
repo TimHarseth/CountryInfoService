@@ -20,6 +20,10 @@ func main() {
 	r.HandleFunc("/countryinfo/v1/info/", handler.DefaultInfo)
 	r.HandleFunc("/countryinfo/v1/population/", handler.DefaultPopulation)
 
+	r.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/countryinfo/v1/", http.StatusMovedPermanently)
+	})
+
 	fmt.Println("Listening on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
