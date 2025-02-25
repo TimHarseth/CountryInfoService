@@ -48,3 +48,10 @@ type FinalPopulation struct {
 	Mean   int               `json:"mean"`
 	Values []PopulationValue `json:"values"`
 }
+
+type Status struct {
+	CountriesNowStatus  int    `json:"countriesnowapi"`
+	RestCountriesStatus int    `json:"restcountriesapi"`
+	Version             string `json:"version"`
+	Uptime              int    `json:"uptime"`
+}
