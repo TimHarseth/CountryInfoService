@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -24,6 +25,10 @@ func main() {
 		http.Redirect(w, r, "/countryinfo/v1/", http.StatusMovedPermanently)
 	})
 
-	fmt.Println("Listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	fmt.Println("Listening on port", port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
