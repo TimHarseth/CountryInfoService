@@ -113,3 +113,16 @@ func GetPopulationAPI(code string) (models.Population_info, error) {
 	return populationInfo, err
 
 }
+
+/*
+GetStatusApi returns status code for url
+if unable to Get url, returns status code 503
+*/
+func GetStatusApi(url string) int {
+	res, err := http.Get(url)
+	if err != nil {
+		return http.StatusServiceUnavailable
+	}
+	defer res.Body.Close()
+	return res.StatusCode
+}
